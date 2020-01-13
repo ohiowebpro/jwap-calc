@@ -80,11 +80,11 @@ add_shortcode('owp-calc',function () {
         $wp_query->the_post();
         $op .=  '<div class="owp-calc-item">
                     
-                    <a href="#">+ Add '.get_the_title().' insulation</a>
+                    <a href="#">+ '.get_the_title().' insulation</a>
                     <div class="owp-calc-area">
-                        <p>Linear Feet:<br />        <input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_foot').         '" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'"  /></p>
-                        <p>Inline Flange Count:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_inline_flange').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
-                        <p>Flanged Valve Count:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_flanged_valve').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
+                        <p># of Linear Feet:<br />        <input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_foot').         '" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'"  /></p>
+                        <p># of Inline Flanges:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_inline_flange').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
+                        <p># of Flanged Valves:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_flanged_valve').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
                     </div>
                     
                  </div>
