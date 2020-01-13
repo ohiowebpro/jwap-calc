@@ -25,7 +25,7 @@
     margin:0 0 5px 0;
 }
 .owp-calc .owp-calc-output {
-    display:none;
+    margin-top:10px;
 }
 
 .owp-calc .owp-calc-savings {
@@ -35,10 +35,45 @@
     max-width:100px;
     padding: 2px 6px;
 }
-
+.owp-calc .owp-calc-note {
+    margin-top:10px;
+    padding-bottom:10px;
+}
 .owp-calc .owp-calc-note p {
     margin-bottom: 10px;
     font-size:12px;
     color:#999;
     line-height: 1;
+}
+
+.owp-calc .input-group {
+    clear: both;
+    margin: 0 0 15px 0;
+    position: relative;
+}
+.owp-calc .input-group input[type='button'] {
+
+}
+.owp-calc .input-group .owp-calc-val {
+    position: relative;
+    text-align: center;
+    width: 62px;
+    display: inline-block;
+
+}
+.owp-calc .input-group .button-minus,
+.owp-calc .input-group .button-plus {
+    font-weight: bold;
+    height: 36px;
+    padding: 0;
+    width: 30px;
+    position: relative;
+}
+.owp-calc-action {
+    padding: 0 20px;
+    margin-top:10px;
+    display:none;
+}
+.owp-calc-action input[type=text] {
+    max-width: 400px;
 }

@@ -7,22 +7,43 @@ jQuery(function($){
     });
 
     $('.owp-calc-submit').click(function() {
-        $('.owp-calc-output').slideUp(function(){
+        $('.owp-calc-savings').animate({opacity: 0}, 400, function(){
             let calc_total = 0;
             $('.owp-calc-val').each(function(){
-                let linear = $(this).data('val');
-                let count  = $(this).val();
-                if (linear && count && count > 0) {
-                    calc_total = calc_total + (linear * count);
+                if ($(this).is(":visible")) {
+                    let linear = $(this).data('val');
+                    let count = $(this).val();
+                    if (linear && count && count > 0 && !isNaN(count)) {
+                        calc_total = calc_total + (linear * count);
+                    }
                 }
-
             });
             calc_total = calc_total.toFixed(2);
+            $('.owp-calc-savings').html('Energy savings per 7 month production season:  $' + calc_total).animate({opacity: 1}, 200);
 
-            $('.owp-calc-savings').html('Energy savings per 7 month production season:  $' + calc_total);
-            $('.owp-calc-output').slideDown();
+            if (calc_total > 0) {
+                $('.owp-calc-action').slideDown();
+            }
         });
+        return false;
+    });
 
+    //increment value
+    $('.input-group').on('click', '.button-plus', function() {
+        let thisInput = $(this).parent().find('.owp-calc-val');
+        let value = parseInt(thisInput.val(), 10);
+        if (!isNaN(value)) {
+            thisInput.val(value + 1);
+        }
+        return false;
+    });
+    //decrement value
+    $('.input-group').on('click', '.button-minus', function() {
+        let thisInput = $(this).parent().find('.owp-calc-val');
+        let value = parseInt(thisInput.val(), 10);
+        if (!isNaN(value) && value > 0) {
+            thisInput.val(value - 1);
+        }
         return false;
     });
 

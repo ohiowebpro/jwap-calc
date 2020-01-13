@@ -64,7 +64,7 @@ function showAdminMessages() {
 
 add_shortcode('owp-calc',function () {
     global $wp_query, $post;
-    $op = '<div class="owp-calc"><form class="" method="get" action="#">';
+    $op = '<div class="owp-calc"><form class="owp-calc-form" method="get" action="#">';
 
     $temp = $wp_query;
     $wp_query= null;
@@ -82,9 +82,24 @@ add_shortcode('owp-calc',function () {
                     
                     <a href="#">+ '.get_the_title().' insulation</a>
                     <div class="owp-calc-area">
-                        <p># of Linear Feet:<br />        <input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_foot').         '" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'"  /></p>
-                        <p># of Inline Flanges:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_inline_flange').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
-                        <p># of Flanged Valves:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_flanged_valve').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
+                        # of Linear Feet:<br />
+                        <div class="input-group">
+                            <input type="button" value="-" class="button-minus" data-field="quantity">
+                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_foot').         '" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'"  />
+                            <input type="button" value="+" class="button-plus" data-field="quantity">
+                        </div>
+                         # of Inline Flanges:<br />
+                        <div class="input-group">
+                            <input type="button" value="-" class="button-minus" data-field="quantity">
+                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_inline_flange').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" />
+                            <input type="button" value="+" class="button-plus" data-field="quantity">
+                        </div>
+                        # of Flanged Valves:<br />
+                        <div class="input-group">
+                            <input type="button" value="-" class="button-minus" data-field="quantity">
+                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_flanged_valve').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" />
+                            <input type="button" value="+" class="button-plus" data-field="quantity">
+                        </div>
                     </div>
                     
                  </div>
@@ -93,16 +108,41 @@ add_shortcode('owp-calc',function () {
         $cnt++;
     }
     $op .= '
-            <div class="owp-calc-output"><div class="owp-calc-savings"></div>
+            
+            <button type="submit" class="owp-calc-submit">Calculate</button>
+            <div class="owp-calc-output"><div class="owp-calc-savings">Select pipe sizes above.</div>
                 <div class="owp-calc-note">
                     <p>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.</p>
                     <p>Cost of fuel/types of fuel, vary by state/region.</p>
                     <p>Information is deemed to be reliable.</p>
                     <p>Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</p>
                 </div>
+                
             </div>
-            <button type="submit" class="owp-calc-submit">Calculate</button>
             </form>
+            <div class="owp-calc-action">
+                <hr />
+                <form class="owp-calc-action-form" method="get" action="#">
+                    <h4>YES! Please contact me about saving money.</h4>
+                    <p>
+                        *Your Name:<br />
+                        <input type="text" name="your_name" id="your_name" />
+                    </p>
+                    <p>
+                        *Company Name:<br />
+                        <input type="text" name="company" id="company" />
+                    </p>
+                    <p>
+                        *Email Address:<br />
+                        <input type="text" name="email" id="email" />
+                    </p>
+                     <p>
+                        *Phone Number:<br />
+                        <input type="text" name="phone" id="phone" />
+                    </p>
+                    <p><button type="submit">SEND</button></p>
+                </form>
+            </div>
         </div>';
 
     $wp_query = null;
