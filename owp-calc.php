@@ -66,7 +66,6 @@ add_shortcode('owp-calc',function () {
     global $wp_query, $post;
     $op = '<div class="owp-calc"><form class="" method="get" action="#">';
 
-    $op .= '<p>The Calculator</p>';
     $temp = $wp_query;
     $wp_query= null;
     $query_args = array (
@@ -82,17 +81,29 @@ add_shortcode('owp-calc',function () {
         $op .=  '<div class="owp-calc-item">
                     
                     <a href="#">+ Add '.get_the_title().' insulation</a>
-                    <div class="owp-calc-val">
-                        <p>Linear Feet:<br /><input type="number" value="0" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
-                        <p>Inline Flange Count:<br /><input type="number" value="0" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
-                        <p>Flanged Valve Count:<br /><input type="number" value="0" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
+                    <div class="owp-calc-area">
+                        <p>Linear Feet:<br />        <input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_foot').         '" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'"  /></p>
+                        <p>Inline Flange Count:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_inline_flange').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
+                        <p>Flanged Valve Count:<br /><input type="number" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_flanged_valve').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" /></p>
                     </div>
+                    
                  </div>
                 ';
 
         $cnt++;
     }
-    $op .= '</form></div>';
+    $op .= '
+            <div class="owp-calc-output"><div class="owp-calc-savings"></div>
+                <div class="owp-calc-note">
+                    <p>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.</p>
+                    <p>Cost of fuel/types of fuel, vary by state/region.</p>
+                    <p>Information is deemed to be reliable.</p>
+                    <p>Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</p>
+                </div>
+            </div>
+            <button type="submit" class="owp-calc-submit">Calculate</button>
+            </form>
+        </div>';
 
     $wp_query = null;
     $wp_query = $temp;
