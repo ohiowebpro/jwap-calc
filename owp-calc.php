@@ -140,7 +140,7 @@ add_shortcode('owp-calc',function () {
                         *Phone Number:<br />
                         <input type="text" name="phone" id="phone" />
                     </p>
-                    <p><button type="submit">SEND</button></p>
+                    <p><button type="submit" class="owp-calc-send">SEND</button></p>
                 </form>
             </div>
         </div>';

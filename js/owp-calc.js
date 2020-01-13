@@ -47,4 +47,13 @@ jQuery(function($){
         return false;
     });
 
+    //save contact info
+    $(".owp-calc-action-form").submit(function(e){
+        e.preventDefault();
+        let data = $(this).serializeArray();
+
+        alert(JSON.stringify(data));
+    });
+
+
 });
