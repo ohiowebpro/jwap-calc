@@ -15,13 +15,13 @@ add_action('wp_enqueue_scripts', function() {
         'owp-calc',
         plugin_dir_url(__FILE__) . 'css/owp-calc.css',
         null,
-        '0.2'
+        '0.3'
     );
     wp_enqueue_script(
         'owp-calc',
         plugin_dir_url(__FILE__ ).'js/owp-calc.js',
         array('jquery'),
-        '0.1',
+        '0.3',
         true
     );
 });
