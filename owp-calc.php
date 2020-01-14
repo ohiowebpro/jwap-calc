@@ -3,7 +3,7 @@
  * Plugin Name: OWP Calculator
  * Plugin URI: https://ohiowebpro.com
  * Description: Calculator for JWrap Site
- * Version: 1.2
+ * Version: 0.3
  * Author: Eric Griffiths
  * Author URI: https://ohiowebpro.com
  **/
@@ -15,13 +15,13 @@ add_action('wp_enqueue_scripts', function() {
         'owp-calc',
         plugin_dir_url(__FILE__) . 'css/owp-calc.css',
         null,
-        '1.2'
+        '0.3'
     );
     wp_enqueue_script(
         'owp-calc',
         plugin_dir_url(__FILE__ ).'js/owp-calc.js',
         array('jquery'),
-        '1.2',
+        '0.3',
         true
     );
 });
@@ -32,16 +32,12 @@ add_action('admin_notices', 'showAdminMessages');
 
 function showAdminMessages() {
     $plugin_messages = array();
-    $aRequired_plugins = array();
-
     include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
     $aRequired_plugins = array(
         array(
             'name'=>'Advanced Custom Fields', 'download'=>'http://wordpress.org/plugins/advanced-custom-fields/', 'path'=>'advanced-custom-fields/acf.php',
         ),
     );
-
     foreach($aRequired_plugins as $aPlugin) {
         // Check if plugin exists
         if(!is_plugin_active( $aPlugin['path'] )) {
@@ -52,7 +48,6 @@ function showAdminMessages() {
 
         foreach($plugin_messages as $message) {
             echo '
-
                 '.$message.'
             ';
         }
@@ -162,7 +157,6 @@ add_shortcode('owp-calc',function () {
 
 
 //wp Ajax handle
-
 function owp_calc_action() {
     $email = '';
     foreach ($_POST as $k => $v) {
@@ -174,10 +168,8 @@ function owp_calc_action() {
         }
 
     }
-
     $customerEmail = '
-    <div style="display:none;font-size:0;line-height:0;max-height:0;mso-hide:all">Thank you for using the '.get_bloginfo('name'). ' Online Calculator! Your energy savings has been calculated using the data entered.</div>
-    <p>Thank you for using the '.get_bloginfo('name'). ' Online Calculator. Below is the data you entered and the potential savings. We will contact you shortly.</p>
+    <p>Thank you for using the '.get_bloginfo('name'). ' Online Calculator! Your energy savings has been calculated using the data entered.</p>
     <p><i>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.<br />
     Cost of fuel/types of fuel, vary by state/region.<br />
     Information is deemed to be reliable.<br />
@@ -196,12 +188,15 @@ function owp_calc_action() {
     } else {
         wp_send_json_error('Error sending email');
     }
-
-
-
-
-
 }
 
 add_action('wp_ajax_owp_calc_action','owp_calc_action');
 add_action('wp_ajax_nopriv_owp_calc_action','owp_calc_action');
+
+
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://ohiowebpro.com/wordpress/plugins/owpcalc.json',
+    __FILE__, //Full path to the main plugin file or functions.php.
+    'owp_calc'
+);

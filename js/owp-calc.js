@@ -1,6 +1,5 @@
 jQuery(function($){
 
-
     $('.owp-calc-item a').click(function(){
         theClick =$(this);
         toToggle = theClick.parent().find('.owp-calc-area')
@@ -11,8 +10,6 @@ jQuery(function($){
                 theClick.find('.owp-calc-sign').text('+');
             }
         });
-
-
         return false;
     });
 
@@ -93,11 +90,9 @@ jQuery(function($){
                     $('.owp-calc-action-form-resp').append('<p class="owp-calc-error">Error Sending data.</p>');
                 },
             });
-
         } else {
             $('.owp-calc-action-form').append('<p class="owp-calc-error">Please fill out all fields.</p>');
         }
-        //alert(JSON.stringify(data));
     });
 
 
