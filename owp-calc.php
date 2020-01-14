@@ -3,7 +3,7 @@
  * Plugin Name: OWP Calculator
  * Plugin URI: https://ohiowebpro.com
  * Description: Calculator for JWrap Site
- * Version: 0.4
+ * Version: 0.5
  * Author: Eric Griffiths
  * Author URI: https://ohiowebpro.com
  **/
@@ -15,13 +15,13 @@ add_action('wp_enqueue_scripts', function() {
         'owp-calc',
         plugin_dir_url(__FILE__) . 'css/owp-calc.css',
         null,
-        '0.4'
+        '0.5'
     );
     wp_enqueue_script(
         'owp-calc',
         plugin_dir_url(__FILE__ ).'js/owp-calc.js',
         array('jquery'),
-        '0.4',
+        '0.5',
         true
     );
 });
