@@ -81,7 +81,7 @@ add_shortcode('owp-calc',function () {
         $title = preg_replace( '/[^a-z0-9]+/', '_', strtolower(get_the_title()));
         $op .=  '<div class="owp-calc-item">
                     
-                    <a href="#">+ '.get_the_title().' insulation</a>
+                    <a href="#"><span class="owp-calc-sign">+</span> '.get_the_title().' insulation</a>
                     <div class="owp-calc-area">
                         # of Linear Feet:<br />
                         <div class="input-group">
@@ -113,10 +113,12 @@ add_shortcode('owp-calc',function () {
             <button type="submit" class="owp-calc-submit">Calculate</button>
             <div class="owp-calc-output"><div class="owp-calc-savings">Select pipe sizes and quantities above to calulate your savings.</div>
                 <div class="owp-calc-note">
-                    <p>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.</p>
-                    <p>Cost of fuel/types of fuel, vary by state/region.</p>
-                    <p>Information is deemed to be reliable.</p>
-                    <p>Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</p>
+                    <ul>
+                        <li>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.</li>
+                        <li>Cost of fuel/types of fuel, vary by state/region.</li>
+                        <li>Information is deemed to be reliable.</li>
+                        <li>Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</li>
+                    </ul>
                 </div>
                 
             </div>
@@ -175,10 +177,10 @@ function owp_calc_action() {
 
     $customerEmail = '
     <p>Thank you for using our calculator. Below is the data you entered and the potential savings. We will contact you shortly.</p>
-    <p><em>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.<br />
+    <p><i>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.<br />
     Cost of fuel/types of fuel, vary by state/region.<br />
     Information is deemed to be reliable.<br />
-    Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</em></p>
+    Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</i></p>
     ';
     $subject = 'Request for contact from savings calculator';
     $subCust = 'Savings Calculator from '.get_bloginfo('name');

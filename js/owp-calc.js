@@ -2,7 +2,17 @@ jQuery(function($){
 
 
     $('.owp-calc-item a').click(function(){
-        $(this).parent().find('.owp-calc-area').slideToggle();
+        theClick =$(this);
+        toToggle = theClick.parent().find('.owp-calc-area')
+        toToggle.slideToggle(function(){
+            if ($(toToggle).is(":visible")) {
+                theClick.find('.owp-calc-sign').text('-');
+            } else {
+                theClick.find('.owp-calc-sign').text('+');
+            }
+        });
+
+
         return false;
     });
 

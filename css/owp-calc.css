@@ -30,6 +30,7 @@
 
 .owp-calc .owp-calc-savings a{
     font-weight:bold;
+    font-size:14px;
 }
 
 .owp-calc .owp-calc-item .owp-calc-area p input {
@@ -40,16 +41,21 @@
     margin-top:10px;
     padding-bottom:10px;
 }
-.owp-calc .owp-calc-note p {
-    margin-bottom: 10px;
+.owp-calc .owp-calc-note ul {
+    margin:0;
+    padding:0;
+}
+.owp-calc .owp-calc-note ul li {
     font-size:12px;
     color:#999;
     line-height: 1;
+    margin:0 0 10px 20px;
+    padding: 0;
 }
 
 .owp-calc .input-group {
     clear: both;
-    margin: 0 0 15px 0;
+    margin: 0 0 8px 0;
     position: relative;
 }
 .owp-calc .input-group input[type='button'] {
@@ -87,4 +93,11 @@
     background-color: darkred;
     color: #ffc3c5;
     padding:2px 4px;
+}
+.owp-calc-send, .owp-calc-submit {
+    background-color: #333;
+    color: #efefef;
+    padding:8px 14px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
