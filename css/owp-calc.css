@@ -58,7 +58,7 @@
 .owp-calc .input-group .owp-calc-val {
     position: relative;
     text-align: center;
-    width: 62px;
+    width: 62px !important;
     display: inline !important;
 
 }
