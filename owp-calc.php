@@ -176,16 +176,21 @@ function owp_calc_action() {
     }
 
     $customerEmail = '
-    <p>Thank you for using our calculator. Below is the data you entered and the potential savings. We will contact you shortly.</p>
+    <div style="display:none;font-size:0;line-height:0;max-height:0;mso-hide:all">Thank you for using the '.get_bloginfo('name'). ' Online Calculator! Your energy savings has been calculated using the data entered.</div>
+    <p>Thank you for using the '.get_bloginfo('name'). ' Online Calculator. Below is the data you entered and the potential savings. We will contact you shortly.</p>
     <p><i>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.<br />
     Cost of fuel/types of fuel, vary by state/region.<br />
     Information is deemed to be reliable.<br />
     Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</i></p>
     ';
     $subject = 'Request for contact from savings calculator';
-    $subCust = 'Savings Calculator from '.get_bloginfo('name');
+    $subCust = 'Your Estimated Energy Savings from the '.get_bloginfo('name'). 'Online Calculator';
     $headers = array('Content-Type: text/html; charset=UTF-8');
     if (wp_mail( get_option('admin_email'), $subject, $email,$headers)) {
+        add_filter( 'wp_mail_from_name', 'custom_wpse_mail_from_name' );
+        function custom_wpse_mail_from_name( $original_email_from ) {
+            return 'Ray at JWrap Insulation';
+        }
         wp_mail( $_POST['email'], $subCust, $customerEmail.$email,$headers);
         wp_send_json_success ('success');
     } else {
