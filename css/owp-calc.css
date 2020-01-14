@@ -25,7 +25,7 @@
     margin:0 0 5px 0;
 }
 .owp-calc .owp-calc-output {
-    margin-top:10px;
+    margin-top:20px;
 }
 
 .owp-calc .owp-calc-savings {
@@ -76,4 +76,14 @@
 }
 .owp-calc-action input[type=text] {
     max-width: 400px;
+    border:1px solid transparent !important;
+}
+
+.owp-calc-action-form input[type=text].owp-form-missing {
+    border:1px solid darkred !important;
+}
+.owp-calc-action-form .owp-calc-error {
+    background-color: darkred;
+    color: #ffc3c5;
+    padding:2px 4px;
 }

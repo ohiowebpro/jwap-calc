@@ -7,6 +7,7 @@ jQuery(function($){
     });
 
     $('.owp-calc-submit').click(function() {
+        $('.owp-calc-action-form-resp').text('');
         $('.owp-calc-savings').animate({opacity: 0}, 400, function(){
             let calc_total = 0;
             $('.owp-calc-val').each(function(){
@@ -19,8 +20,8 @@ jQuery(function($){
                 }
             });
             calc_total = calc_total.toFixed(2);
-            $('.owp-calc-savings').html('Energy savings per 7 month production season:  $' + calc_total).animate({opacity: 1}, 200);
-
+            $('.owp-calc-savings').html('<a href="#owp-calc-action">Energy savings per 7 month production season:  $' + calc_total + '</a>').animate({opacity: 1}, 200);
+            $('#calculated_savings').val(calc_total);
             if (calc_total > 0) {
                 $('.owp-calc-action').slideDown();
             }
@@ -49,10 +50,44 @@ jQuery(function($){
 
     //save contact info
     $(".owp-calc-action-form").submit(function(e){
+        $('.owp-calc-error').remove();
+        $('.owp-form-missing').removeClass('owp-form-missing');
         e.preventDefault();
-        let data = $(this).serializeArray();
+        let dataArr = $(this).serializeArray();
+        let validate = true;
+        $.each(dataArr, function(i, field){
+            if (!field.value) {
+                $('#' + field.name).addClass('owp-form-missing');
+                validate = false;
+            }
+        });
+        if (validate == true) {
+            let data = $(this).serialize();
+            let calc = $('.owp-calc-form').serialize();
+            $.ajax({
+                url: '/wp-admin/admin-ajax.php',
+                type: 'post',
+                data: data + '&' + calc,
+                success: function (returnData) {
+                    if (returnData.data == 'success') {
+                        $('.owp-calc-action-form-resp').html('<p class="owp-calc-success">Thank you! We will get back to you shortly.</p>');
+                    } else {
+                        $('.owp-calc-action-form-resp').append('<p class="owp-calc-error">Error Sending data.</p>');
+                    }
+                    $('.owp-calc-form')[0].reset();
+                    $('.owp-calc-action-form')[0].reset();
+                    $('.owp-calc-action').slideUp();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('Request failed: ' + thrownError.message);
+                    $('.owp-calc-action-form-resp').append('<p class="owp-calc-error">Error Sending data.</p>');
+                },
+            });
 
-        alert(JSON.stringify(data));
+        } else {
+            $('.owp-calc-action-form').append('<p class="owp-calc-error">Please fill out all fields.</p>');
+        }
+        //alert(JSON.stringify(data));
     });
 
 

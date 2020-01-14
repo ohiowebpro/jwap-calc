@@ -78,6 +78,7 @@ add_shortcode('owp-calc',function () {
     $cnt =1;
     while ($wp_query->have_posts()) {
         $wp_query->the_post();
+        $title = preg_replace( '/[^a-z0-9]+/', '_', strtolower(get_the_title()));
         $op .=  '<div class="owp-calc-item">
                     
                     <a href="#">+ '.get_the_title().' insulation</a>
@@ -85,19 +86,19 @@ add_shortcode('owp-calc',function () {
                         # of Linear Feet:<br />
                         <div class="input-group">
                             <input type="button" value="-" class="button-minus" data-field="quantity">
-                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_foot').         '" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'"  />
+                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_foot').         '" name="'.sanitize_file_name($title).'_linear_ft" id="owpcalc'.$cnt.'"  />
                             <input type="button" value="+" class="button-plus" data-field="quantity">
                         </div>
                          # of Inline Flanges:<br />
                         <div class="input-group">
                             <input type="button" value="-" class="button-minus" data-field="quantity">
-                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_inline_flange').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" />
+                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_inline_flange').'" name="'.sanitize_file_name($title).'_inline_flanges" id="owpcalc'.$cnt.'" />
                             <input type="button" value="+" class="button-plus" data-field="quantity">
                         </div>
                         # of Flanged Valves:<br />
                         <div class="input-group">
                             <input type="button" value="-" class="button-minus" data-field="quantity">
-                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_flanged_valve').'" name="owpcalc'.$cnt.'" id="owpcalc'.$cnt.'" />
+                            <input type="text" value="0" class="owp-calc-val" data-val="'.get_field('savings_per_flanged_valve').'" name="'.sanitize_file_name($title).'_flanged_valves" id="owpcalc'.$cnt.'" />
                             <input type="button" value="+" class="button-plus" data-field="quantity">
                         </div>
                     </div>
@@ -110,7 +111,7 @@ add_shortcode('owp-calc',function () {
     $op .= '
             
             <button type="submit" class="owp-calc-submit">Calculate</button>
-            <div class="owp-calc-output"><div class="owp-calc-savings">Select pipe sizes above.</div>
+            <div class="owp-calc-output"><div class="owp-calc-savings">Select pipe sizes and quantities above to calulate your savings.</div>
                 <div class="owp-calc-note">
                     <p>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.</p>
                     <p>Cost of fuel/types of fuel, vary by state/region.</p>
@@ -119,10 +120,12 @@ add_shortcode('owp-calc',function () {
                 </div>
                 
             </div>
+            <input type="hidden" id="calculated_savings" name="calculated_savings" value="" />
             </form>
-            <div class="owp-calc-action">
+            <div class="owp-calc-action" id="owp-calc-action">
                 <hr />
                 <form class="owp-calc-action-form" method="get" action="#">
+                    <input type="hidden" name="action" value="owp_calc_action" />
                     <h4>YES! Please contact me about saving money.</h4>
                     <p>
                         *Your Name:<br />
@@ -143,6 +146,7 @@ add_shortcode('owp-calc',function () {
                     <p><button type="submit" class="owp-calc-send">SEND</button></p>
                 </form>
             </div>
+            <div class="owp-calc-action-form-resp"></div>
         </div>';
 
     $wp_query = null;
@@ -151,3 +155,46 @@ add_shortcode('owp-calc',function () {
     return $op;
 
 });
+
+
+
+
+//wp Ajax handle
+
+function owp_calc_action() {
+    $email = '';
+    foreach ($_POST as $k => $v) {
+        $v = sanitize_text_field($v);
+        $k = sanitize_text_field($k);
+        $_POST[$k] =  sanitize_text_field($v);
+        if ($k != 'action') {
+            $email .= '<p><strong>' . str_replace('_', ' ', $k) . ':</strong> ' . $v . '</p>';
+        }
+
+    }
+
+    $customerEmail = '
+    <p>Thank you for using our calculator. Below is the data you entered and the potential savings. We will contact you shortly.</p>
+    <p><em>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.<br />
+    Cost of fuel/types of fuel, vary by state/region.<br />
+    Information is deemed to be reliable.<br />
+    Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</em></p>
+    ';
+    $subject = 'Request for contact from savings calculator';
+    $subCust = 'Savings Calculator from '.get_bloginfo('name');
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    if (wp_mail( get_option('admin_email'), $subject, $email,$headers)) {
+        wp_mail( $_POST['email'], $subCust, $customerEmail.$email,$headers);
+        wp_send_json_success ('success');
+    } else {
+        wp_send_json_error('Error sending email');
+    }
+
+
+
+
+
+}
+
+add_action('wp_ajax_owp_calc_action','owp_calc_action');
+add_action('wp_ajax_nopriv_owp_calc_action','owp_calc_action');
