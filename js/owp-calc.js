@@ -27,7 +27,7 @@ jQuery(function($){
                 }
             });
             calc_total = calc_total.toFixed(2);
-            $('.owp-calc-savings').html('<a href="#owp-calc-action">Energy savings per 7 month production season:  $' + calc_total + '</a>').animate({opacity: 1}, 200);
+            $('.owp-calc-savings').html('<span>Energy savings per 7 month production season:  $' + calc_total + '*</span>').animate({opacity: 1}, 200);
             $('#calculated_savings').val(calc_total);
             if (calc_total > 0) {
                 $('.owp-calc-action').slideDown();

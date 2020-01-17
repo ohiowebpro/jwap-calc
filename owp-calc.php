@@ -105,17 +105,8 @@ add_shortcode('owp-calc',function () {
     }
     $op .= '
             
-            <button type="submit" class="owp-calc-submit">Calculate</button>
-            <div class="owp-calc-output"><div class="owp-calc-savings">Select pipe sizes and quantities above to calulate your savings.</div>
-                <div class="owp-calc-note">
-                    <ul>
-                        <li>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.</li>
-                        <li>Cost of fuel/types of fuel, vary by state/region.</li>
-                        <li>Information is deemed to be reliable.</li>
-                        <li>Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</li>
-                    </ul>
-                </div>
-                
+            <button type="submit" class="owp-calc-submit">Calculate Now!</button>
+            <div class="owp-calc-output"><div class="owp-calc-savings">Select pipe sizes and quantities above to calulate your savings.</div>               
             </div>
             <input type="hidden" id="calculated_savings" name="calculated_savings" value="" />
             </form>
@@ -125,8 +116,12 @@ add_shortcode('owp-calc',function () {
                     <input type="hidden" name="action" value="owp_calc_action" />
                     <h4>YES! Please contact me about saving money.</h4>
                     <p>
-                        *Your Name:<br />
-                        <input type="text" name="your_name" id="your_name" />
+                        *First Name:<br />
+                        <input type="text" name="first_name" id="first_name" />
+                    </p>
+                    <p>
+                        *Last Name:<br />
+                        <input type="text" name="last_name" id="last_name" />
                     </p>
                     <p>
                         *Company Name:<br />
@@ -139,6 +134,18 @@ add_shortcode('owp-calc',function () {
                      <p>
                         *Phone Number:<br />
                         <input type="text" name="phone" id="phone" />
+                    </p>
+                    <p>
+                        <strong>Contact me because I’m interested in the following:</strong>
+                    </p>
+                    <p>
+                        <input type="checkbox" name="assessment" value="true" id="assessment" /> <label for="assessment">Custom No-Obligation Energy Assessment</label>
+                    </p>
+                    <p>
+                        <input type="checkbox" name="free_sample" value="true" id="free_sample" /> <label for="free_sample">Free Insulation Sample</label>
+                    </p>
+                    <p>
+                        <input type="checkbox" name="estimate" value="true" id="estimate" /> <label for="estimate">Estimate Insulation Costs</label>
                     </p>
                     <p><button type="submit" class="owp-calc-send">SEND</button></p>
                 </form>
