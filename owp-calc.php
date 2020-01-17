@@ -71,6 +71,7 @@ add_shortcode('owp-calc',function () {
     $wp_query = new WP_Query();
     $wp_query->query($query_args);
     $cnt =1;
+    $fieldArr = '';
     while ($wp_query->have_posts()) {
         $wp_query->the_post();
         $title = preg_replace( '/[^a-z0-9]+/', '_', strtolower(get_the_title()));
@@ -100,7 +101,7 @@ add_shortcode('owp-calc',function () {
                     
                  </div>
                 ';
-
+            $fieldArr .= sanitize_file_name($title).',';
         $cnt++;
     }
     $op .= '
@@ -114,6 +115,7 @@ add_shortcode('owp-calc',function () {
                 <hr />
                 <form class="owp-calc-action-form" method="get" action="#">
                     <input type="hidden" name="action" value="owp_calc_action" />
+                    <input type="hidden" name="fields" value="'.rtrim($fieldArr,',').'" />
                     <h4>YES! Please contact me about saving money.</h4>
                     <p>
                         *First Name:<br />
@@ -161,7 +163,9 @@ add_shortcode('owp-calc',function () {
 });
 
 
-
+function owp_calc_email_field($val) {
+    return strtoupper(str_ireplace(array('1_2','_'),array('1/2',' '),$val));
+}
 
 //wp Ajax handle
 function owp_calc_action() {
@@ -170,27 +174,126 @@ function owp_calc_action() {
         $v = sanitize_text_field($v);
         $k = sanitize_text_field($k);
         $_POST[$k] =  sanitize_text_field($v);
-        if ($k != 'action') {
+        if ($k != 'action' && $k != 'fields') {
             $email .= '<p><strong>' . str_replace('_', ' ', $k) . ':</strong> ' . $v . '</p>';
         }
 
     }
     $customerEmail = '
-    <p>Thank you for using the '.get_bloginfo('name'). ' Online Calculator! Your energy savings has been calculated using the data entered.</p>
-    <p><i>Please note conditions/variables used may be construed as common/typical/standard for hot mix asphalt production.<br />
-    Cost of fuel/types of fuel, vary by state/region.<br />
-    Information is deemed to be reliable.<br />
-    Other fuel saving calculation may be modified at client request using variables specific to their design conditions.</i></p>
+
+    <p>
+    '.$_POST['company'].'<br />
+    Attn.: '.$_POST['first_name'].' '.$_POST['last_name'].'<br />
+    '.$_POST['phone'].'
+    </p>
+    
+    <p>Date: '.date('m/d/Y').'</p>
+    
+    <p>'.$_POST['first_name'].',<br />
+        Thank you for using the JWrap Insulation Energy Savings Calculator! Your estimated savings is based on the data you entered and the Conditions &amp; Variables* below. 
+    </p>
+    
+    <p>
+        Did you know that insulating hot pipes, valves, flanges, elbows, tees and other hot components provides these benefits? And, JWrap Insulation is the ideal insulation product for difficult-to-insulate components often left by insulators.
+    </p>
+    
+    <p>
+        1. Reduces Energy Costs<br />
+        2. Improves process control<br />
+        3. Provides increased personnel protection from hot surfaces<br />
+        4. Reduces workload on pumps and heating equipment<br />
+        5. Reduces emissions<br />
+        6. Provides a short term payback with significant long-term energy savings
+    
+    </p>
+    
+    <p>
+    If you haven\'t already, please call 855-867-8200 to get a modified evaluation using variables specific to your design and conditions. Free JWrap Insulation samples available on request.
+    </p>
+    
+    <p>
+    I often say... "If the surface is HOT, just cover it up! The savings is tremendous!"
+    </p>
+    
+    <p>
+        <img src="https://jwrapinsulation.com/wp-content/uploads/2020/01/ray-braun-profile.jpg" width="200" height="200" alt="Ray Braun"><br />
+        Best regards,<br />
+        Ray Braun<br />
+        855-867-8200<br />
+        President and Energy Advisor<br />
+        JWrap Insulation<br />
+        Manufactured by Energy Reduction Solutions
+    </p>
+
+    <p>
+        JWrap Insulation is fabricated in the USA
+    </p>
+    <p>
+        Note: This estimate is deemed reliable based on common, typical, and standard conditions/variables for hot mix asphalt production. Cost of fuel and types of fuel vary by state/region.
+    </p>
+    <hr />
+    <h4><center>JWrap Insulation</center></h4>
+    <p><strong><center>Estimated Energy Savings*</center></strong></p>
+    <hr />
+    <table width="500" align="center" cellpadding="0" cellspacing="0" style=" border-collapse: separate;">
+        
+        
     ';
+
+    $fields = explode(',',$_POST['fields']);
+    $cnt = 1;
+    foreach ($fields as $field) {
+        if ($cnt == 1) {
+            $customerEmail .= '<tr>';
+        }
+        $customerEmail .= '
+            <td width="250" >
+                <p><strong>'.owp_calc_email_field($field).'</strong><br />
+                Linear Feet: '.$_POST[$field.'_linear_ft'].'<br />
+                Inline flanges: '.$_POST[$field.'_inline_flanges'].'<br />
+                Flanged valves: '.$_POST[$field.'_flanged_valves'].'<br />
+                </p>
+            </td>
+        ';
+        if ($cnt == 2) {
+            $customerEmail .= '</tr>';
+            $cnt = 1;
+        }
+        $cnt++;
+
+    }
+
+
+    $customerEmail .= '
+        </table>
+        <hr />
+        <p><strong>Estimated Energy Savings: '.$_POST['calculated_savings'].'*</strong></p>
+        <hr />
+        <p>
+            <i>
+            *Conditions & Variables: Heat loss and fuel savings calculations are based on NAIMA 3EPlus V4.1. The online calculator estimates cost of energy based on the following:<br />
+            Process temperature = 300 degrees F<br />
+            Ambient temperature = 60 degrees F <br />
+            Wind speed = 8 MPH<br />
+            Fuel type = natural gas<br />
+            Fuel cost = $6.84 per MMBTU<br />
+            Efficiency of heating equipment = 87%<br />
+            Hours of operation = approximately 5040 hours / 7 month production season<br />
+            Insulation = 1 1/2” thick fiberglass with aluminum jacket
+            </i>
+        </p>
+    ';
+
+
     $subject = 'Request for contact from savings calculator';
-    $subCust = 'Your Estimated Energy Savings from the '.get_bloginfo('name'). 'Online Calculator';
+    $subCust = 'Your Calculated Energy Savings from JWrap Insulation';
     $headers = array('Content-Type: text/html; charset=UTF-8');
-    if (wp_mail( get_option('admin_email'), $subject, $email,$headers)) {
+    if (wp_mail( get_option('admin_email'), $subject, $email.$customerEmail,$headers)) {
         add_filter( 'wp_mail_from_name', 'custom_wpse_mail_from_name' );
         function custom_wpse_mail_from_name( $original_email_from ) {
             return 'Ray at JWrap Insulation';
         }
-        wp_mail( $_POST['email'], $subCust, $customerEmail.$email,$headers);
+        wp_mail( $_POST['email'], $subCust, $customerEmail,$headers);
         wp_send_json_success ('success');
     } else {
         wp_send_json_error('Error sending email');

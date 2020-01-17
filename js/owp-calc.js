@@ -80,6 +80,9 @@ jQuery(function($){
                         $('.owp-calc-action-form-resp').html('<p class="owp-calc-success">Thank you! We will get back to you shortly.</p>');
                     } else {
                         $('.owp-calc-action-form-resp').append('<p class="owp-calc-error">Error Sending data.</p>');
+                        $('.owp-calc-form')[0].reset();
+                        $('.owp-calc-action-form')[0].reset();
+                        $('.owp-calc-action').slideUp();
                     }
                     $('.owp-calc-form')[0].reset();
                     $('.owp-calc-action-form')[0].reset();
@@ -88,6 +91,9 @@ jQuery(function($){
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log('Request failed: ' + thrownError.message);
                     $('.owp-calc-action-form-resp').append('<p class="owp-calc-error">Error Sending data.</p>');
+                    $('.owp-calc-form')[0].reset();
+                    $('.owp-calc-action-form')[0].reset();
+                    $('.owp-calc-action').slideUp();
                 },
             });
         } else {
