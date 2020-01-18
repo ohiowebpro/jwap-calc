@@ -141,13 +141,13 @@ add_shortcode('owp-calc',function () {
                         <strong>Contact me because I’m interested in the following:</strong>
                     </p>
                     <p>
-                        <input type="checkbox" name="assessment" value="true" id="assessment" /> <label for="assessment">Custom No-Obligation Energy Assessment</label>
+                        <input type="checkbox" name="energy_assessment" value="true" id="energy_assessment" /> <label for="energy_assessment">Custom No-Obligation Energy Assessment</label>
                     </p>
                     <p>
-                        <input type="checkbox" name="free_sample" value="true" id="free_sample" /> <label for="free_sample">Free Insulation Sample</label>
+                        <input type="checkbox" name="free_sample" value="true" id="free_sample" /> <label for="free_sample">Free Sample JWrap Insulation</label>
                     </p>
                     <p>
-                        <input type="checkbox" name="estimate" value="true" id="estimate" /> <label for="estimate">Estimate Insulation Costs</label>
+                        <input type="checkbox" name="insulation_estimate" value="true" id="insulation_estimate" /> <label for="insulation_estimate">Insulation Estimate</label>
                     </p>
                     <p><button type="submit" class="owp-calc-send">SEND</button></p>
                 </form>
@@ -190,11 +190,11 @@ function owp_calc_action() {
     <p>Date: '.date('m/d/Y').'</p>
     
     <p>'.$_POST['first_name'].',<br />
-        Thank you for using the JWrap Insulation Energy Savings Calculator! Your estimated savings is based on the data you entered and the Conditions &amp; Variables* below. 
+        Thank you for using our Energy Savings Calculator! Your estimate is below. The calculated savings is based on the data you entered and other Conditions &amp; Variables*.
     </p>
     
     <p>
-        Did you know that insulating hot pipes, valves, flanges, elbows, tees and other hot components provides these benefits? And, JWrap Insulation is the ideal insulation product for difficult-to-insulate components often left by insulators.
+        These are the benefits of insulating hot pipes, valves, flanges, elbows, tees and other hot components:
     </p>
     
     <p>
@@ -203,20 +203,23 @@ function owp_calc_action() {
         3. Provides increased personnel protection from hot surfaces<br />
         4. Reduces workload on pumps and heating equipment<br />
         5. Reduces emissions<br />
-        6. Provides a short term payback with significant long-term energy savings
+        6. Provides a short-term payback with significant long-term energy savings
     
     </p>
     
     <p>
-    If you haven\'t already, please call 855-867-8200 to get a modified evaluation using variables specific to your design and conditions. Free JWrap Insulation samples available on request.
+        JWrap Insulation is ideal for difficult-to-insulate components often left by insulators. Samples available upon request.
+    </p>
+    <p>
+        If you haven\'t already, please call 855-867-8200 to get a modified evaluation using variables specific to your design and conditions. 
     </p>
     
     <p>
-    I often say... "If the surface is HOT, just cover it up! The savings is tremendous!"
+    I often say...<br />"If the surface is HOT, just cover it up! The savings is tremendous!"
     </p>
     
     <p>
-        <img src="https://jwrapinsulation.com/wp-content/uploads/2020/01/ray-braun-profile.jpg" width="200" height="200" alt="Ray Braun"><br />
+        <img src="https://jwrapinsulation.com/wp-content/uploads/2020/01/ray-braun-profile.jpg" width="140" height="140" style="width:140px;height:140px;" alt="Ray Braun"><br />
         Best regards,<br />
         Ray Braun<br />
         855-867-8200<br />
@@ -235,7 +238,7 @@ function owp_calc_action() {
     <h4><center>JWrap Insulation</center></h4>
     <p><strong><center>Estimated Energy Savings*</center></strong></p>
     <hr />
-    <table width="500" align="center" cellpadding="0" cellspacing="0" style=" border-collapse: separate;">
+    <table width="500" align="center" cellpadding="0" cellspacing="0" style=" border-collapse: collapse;">
         
         
     ';
@@ -258,9 +261,9 @@ function owp_calc_action() {
         if ($cnt == 2) {
             $customerEmail .= '</tr>';
             $cnt = 1;
+        } else {
+            $cnt++;
         }
-        $cnt++;
-
     }
 
 
