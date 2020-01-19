@@ -3,7 +3,7 @@
  * Plugin Name: OWP Calculator
  * Plugin URI: https://ohiowebpro.com
  * Description: Calculator for JWrap Site
- * Version: 0.7
+ * Version: 0.8
  * Author: Eric Griffiths
  * Author URI: https://ohiowebpro.com
  **/
@@ -15,13 +15,13 @@ add_action('wp_enqueue_scripts', function() {
         'owp-calc',
         plugin_dir_url(__FILE__) . 'css/owp-calc.css',
         null,
-        '0.7'
+        '0.8'
     );
     wp_enqueue_script(
         'owp-calc',
         plugin_dir_url(__FILE__ ).'js/owp-calc.js',
         array('jquery'),
-        '0.7',
+        '0.8',
         true
     );
 });
@@ -116,7 +116,7 @@ add_shortcode('owp-calc',function () {
                 <form class="owp-calc-action-form" method="get" action="#">
                     <input type="hidden" name="action" value="owp_calc_action" />
                     <input type="hidden" name="fields" value="'.rtrim($fieldArr,',').'" />
-                    <h4>YES! Please contact me about saving money.</h4>
+                    <h4>YES! Email me this Energy Savings estimate.</h4>
                     <p>
                         *First Name:<br />
                         <input type="text" name="first_name" id="first_name" />
@@ -138,7 +138,7 @@ add_shortcode('owp-calc',function () {
                         <input type="text" name="phone" id="phone" />
                     </p>
                     <p>
-                        <strong>Contact me because I’m interested in the following:</strong>
+                        <strong>I am interested in the following:</strong>
                     </p>
                     <p>
                         <input type="checkbox" name="energy_assessment" value="true" id="energy_assessment" /> <label for="energy_assessment">Custom No-Obligation Energy Assessment</label>
